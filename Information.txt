@@ -1,0 +1,65 @@
+ls /var/log
+
+list of the all log files
+alternatives.log
+apt
+auth.log
+boot.log
+dpkg.log
+journal
+kern.log
+syslog
+ufw
+
+
+sudo less /var/log/syslog  ---> Contains general system events
+
+sudo less /var/log/auth.log ---> Contains authentication related events
+Failed password
+Accepted password
+sudo
+authentication
+
+
+sudo less /var/log/dpkg.log ---> Contains about Debain package operations
+install
+upgrade
+remove
+
+grep -i "error" /var/log/syslog
+-i indicates ignore case
+
+sudo grep -i "authentication" /var/log/auth.log
+grep -i "failed" /var/log/syslog
+
+grep -ic "error" /var/log/syslog
+-c indicated count 
+
+
+journalctl  ----> View Journal Entries
+
+journalctl --since today
+journalctl --since "1 hour ago"
+	
+systemctl status ssh  ---> Monitor Service Failures
+systemctl --failed
+
+
+dmesg | tail ---> Kernal messages
+sudo dmesg | tail
+sudo dmesg | grep -i "error"
+sudo dmesg | grep -i "warning"
+
+
+| Level     | Meaning                  |
+| --------- | ------------------------ |
+| `emerg`   | Emergency                |
+| `alert`   | Immediate action needed  |
+| `crit`    | Critical                 |
+| `err`     | Error                    |
+| `warning` | Warning                  |
+| `notice`  | Significant normal event |
+| `info`    | Information              |
+| `debug`   | Debugging information    |
+
+
