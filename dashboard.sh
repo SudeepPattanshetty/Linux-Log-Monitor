@@ -10,3 +10,5 @@ echo "Alert Logs	: alerts/alerts.log"
 
 echo "=========================================================="
 
+
+sudo ./modules/auth_monitor.sh
