@@ -12,3 +12,11 @@ echo "=========================================================="
 
 
 sudo ./modules/auth_monitor.sh
+echo
+echo
+
+sudo ./modules/ssh_monitor.ssh
+echo
+echo
+
+sudo ./modules/error_monitor.sh
