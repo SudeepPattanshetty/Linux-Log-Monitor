@@ -1,0 +1,55 @@
+#!/bin/bash
+
+AUTH_LOG="/var/log/auth.log"
+ALERT_LOG="alerts/alerts.log"
+
+# Number of failed attempts from one IP 
+# required to generate an alert
+IP_THRESHOLD=5
+
+echo "=========================================================="
+echo "			SSH LOG MONITOR				"
+echo "=========================================================="
+
+if [ ! -f "$AUTH_LOG" ]; then
+	echo "ERROR: $AUTH_LOG not found."
+	echo "$AUTH_LOG"
+	echo
+	echo "Use journalctl-based monitoring on this system"
+	echo "sudo journalctl -u ssh --since today"
+	exit 1
+fi
+
+if [! -d "alerts" ]; then
+	mkdir -p alerts
+fi
+
+FAILED_SSH=$(sudo grep -icE "sshd.*failed password" "$AUTH_LOG" )
+SUCCESSFUL_SSH=$(sudo grep -icE "sshd.*accepted" "$AUTH_LOG" )
+INVALID_SSH=$(sudo grep -icE "sshd.*invalid user" "$AUTH_LOG" )
+
+echo "Log File			: $AUTH_LOG"
+echo
+echo "Failed SSH Logins		: $FAILED_SSH"
+echo "Successfully SSH Logins		: $SUCCESSFUL_SSH"
+echo "Invalid SSH Users		: $INVALID_SSH"
+echo
+
+echo "----------------------------------------------------------"
+echo " 			FAILED SSH ATTEMPTS by IP		"
+echo "----------------------------------------------------------"
+
+FAILED_IPS=$(grep -iE "sshd.*failed password" "$AUTH_LOG" \
+	| grep -oE 'from ([0-9]{1,3}\.){3}[0-9]{1,3}' \
+	| awk '{print $2'
+	| sort \
+	| uniq -c \
+	| sort -nr)
+
+if [ -z "$FAILED_IPS" ]; then
+	echo "No failed SSH attempts found."
+else
+	echo "$FAILED_IPS"
+fi
+
+echo "=========================================================="
