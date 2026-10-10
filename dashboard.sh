@@ -20,3 +20,8 @@ echo
 echo
 
 sudo ./modules/error_monitor.sh
+echo
+echo
+
+sudo ./modules/service_monitor.sh
+
