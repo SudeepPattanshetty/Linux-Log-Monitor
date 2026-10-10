@@ -40,3 +40,17 @@ Linux-Log-Monitor/
 ├── config/
 ├── docs/
 └── screenshots/
+
+
+
+
+
+
+### Centralized Alert Engine
+
+- Created a reusable alert logging function.
+- Standardized INFO, WARNING, and CRITICAL severity levels.
+- Added timestamps and alert categories.
+- Created an alert viewer with severity filters.
+- Integrated the alert engine into monitoring modules.
+- Tested alerts using sample events.
